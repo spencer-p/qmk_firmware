@@ -1,2 +1,2 @@
 SRC += muse.c
-MOUSEKEY_ENABLE=yes
+MOUSEKEY_ENABLE = yes
