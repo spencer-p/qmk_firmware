@@ -1,12 +1,20 @@
 #pragma once
 
 #ifdef AUDIO_ENABLE
-    #define STARTUP_SONG SONG(PREONIC_SOUND)
-    // #define STARTUP_SONG SONG(NO_SOUND)
+#	define STARTUP_SONG SONG(PREONIC_SOUND)
 
-    #define DEFAULT_LAYER_SONGS { SONG(QWERTY_SOUND), \
-                                  SONG(COLEMAK_SOUND), \
-                                  SONG(DVORAK_SOUND) \
+#	define GAME_SOUND \
+		Q__NOTE(_G5), \
+		Q__NOTE(_FS5),\
+		Q__NOTE(_DS5),\
+		Q__NOTE(_A4), \
+		Q__NOTE(_GS4),\
+		Q__NOTE(_E5), \
+		Q__NOTE(_GS5),\
+		HD_NOTE(_C6),
+
+#	define DEFAULT_LAYER_SONGS { SONG(PREONIC_SOUND), \
+                                 SONG(GAME_SOUND) \
                                 }
 #endif
 
