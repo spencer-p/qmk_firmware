@@ -225,6 +225,15 @@ void integrated_calculator_compute(char *buf, size_t buf_len) {
   send_char('=');
 #endif
 
+  // If we printed all of the precision, then we must be missing a 0.
+  if (result_len <= ex.precision) {
+    send_char('0');
+    send_char('.');
+    for (int i = result_len+1; i <= ex.precision; i++) {
+      send_char('0');
+    }
+  }
+
   for (int i = 0; i < result_len; i++) {
     send_char(result_str[i]);
     if (i == decimal_index && i+1 != result_len) {
