@@ -112,6 +112,7 @@ bool process_integrated_calculator(uint16_t keycode, keyrecord_t *record) {
     case KC_7:
     case KC_MINUS:
     case KC_SLASH:
+    case KC_DOT:
       return true;
       break;
   } 
