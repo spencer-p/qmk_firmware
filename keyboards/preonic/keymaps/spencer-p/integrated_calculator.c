@@ -181,6 +181,8 @@ bool process_integrated_calculator(uint16_t keycode, keyrecord_t *record) {
     // Note that we only reach this case when shift is *not* pressed.
     case KC_EQL:
       if (engaged && !record->event.pressed) {
+        // Immediately disengage and disable to prevent potential races.
+        enabled = false;
         engaged = false;
         integrated_calculator_compute(buf, buf_len);
         integrated_calculator_reset();
