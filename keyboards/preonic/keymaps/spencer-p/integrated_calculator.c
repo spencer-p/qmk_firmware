@@ -56,10 +56,15 @@ float enable_sound[][2] = SONG(NUM_LOCK_ON_SOUND);
 
 void integrated_calculator_compute(char *, size_t);
 void integrated_calculator_reset(void);
+void integrated_calculator_send_double(double, int);
 char kc_to_char(uint16_t keycode);
 double expression(struct executor *s);
 
 char buf[IGCALC_BUFSIZE] = {0};
+char result_str[IGCALC_RESULT_BUFSIZE];
+char NaN_string[]    = "NaN";
+char Inf_string[]    = "+Inf";
+char NegInf_string[] = "-Inf";
 size_t buf_len = 0;
 bool enabled = false;
 bool engaged = false; // Records if we started to press KC_EQL.
@@ -199,7 +204,6 @@ bool process_integrated_calculator(uint16_t keycode, keyrecord_t *record) {
 }
 
 void integrated_calculator_compute(char *buf, size_t buf_len) {
-  static char result_str[IGCALC_RESULT_BUFSIZE];
   struct executor ex = {
     .text = buf,
     .len = buf_len,
@@ -207,18 +211,6 @@ void integrated_calculator_compute(char *buf, size_t buf_len) {
     .precision = 0,
   };
   double result = expression(&ex);
-
-  // Unfortunately, at the moment, I don't have a good way to format a floating
-  // point number. So I have to settle with this:
-  //  - multiply by 10**precicion
-  //  - cast to int, removing everything past the (new) decimal
-  //  - print the int with a dot in the right place.
-  //  This could introduce inaccuracy for large numbers.
-  for (int i = 0; i < ex.precision; i++) {
-    result *= 10;
-  }
-  int result_len = snprintf(result_str, IGCALC_RESULT_BUFSIZE, "%d", (int)result);
-  int decimal_index = result_len - ex.precision - 1;
 
 #ifdef RESTATE_THE_QUESTION
   send_char('\n');
@@ -228,11 +220,47 @@ void integrated_calculator_compute(char *buf, size_t buf_len) {
   send_char('=');
 #endif
 
+  integrated_calculator_send_double(result,  ex.precision);
+}
+
+void integrated_calculator_send_double(double result, int precision) {
+  // Unfortunately, at the moment, I don't have a good way to format a floating
+  // point number. So I have to settle with this:
+  //  - multiply by 10**precicion
+  //  - cast to int, removing everything past the (new) decimal
+  //  - print the int with a dot in the right place.
+  //  This could introduce inaccuracy for large numbers.
+
+  // Handle special cases first.
+  if (result != result) {
+    SEND_STRING("NaN");
+    return;
+  } else if (result == (1.0f / 0.0f)) {
+    SEND_STRING("inf");
+    return;
+  } else if (result == (-1.0f / 0.0f)) {
+    SEND_STRING("-inf");
+    return;
+  }
+
+  // Compute result * 10**precision.
+  for (int i = 0; i < precision; i++) {
+    result *= 10;
+  }
+  // Round the number up if the next base 10 digit is 5 or greater.
+  if (((int)(result*10))%10 >= 5) {
+    result += 1;
+  }
+
+  // Cast and print the result as a decimal number.
+  int result_len = snprintf(result_str, IGCALC_RESULT_BUFSIZE, "%d", (int)result);
+  int decimal_index = result_len - precision - 1;
+
   // If we printed all of the precision, then we must be missing a 0.
-  if (result_len <= ex.precision) {
+  if (result_len <= precision) {
     send_char('0');
     send_char('.');
-    for (int i = result_len+1; i <= ex.precision; i++) {
+    for (int i = result_len+1; i <= precision; i++) {
       send_char('0');
     }
   }
