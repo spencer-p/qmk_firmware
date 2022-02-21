@@ -21,6 +21,7 @@
 enum preonic_layers {
   _QWERTY,
   _GAME,
+  _SPACE_CADET,
   _VIM,
   _LOWER,
   _RAISE,
@@ -30,7 +31,6 @@ enum preonic_layers {
 enum preonic_keycodes {
   QWERTY = SAFE_RANGE2,
   GAME,
-  SPACE_CADET,
   LOWER,
   RAISE,
   BACKLIT
@@ -48,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Bksp |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  '   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Shift |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | Ctrl | Brite| Alt  | GUI  |Lower | Enter| Spc  |Raise | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,  KC_1,        KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,              KC_EQL,
   KC_TAB,  KC_Q,        KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,              LT(_SPACE_CADET, KC_BSLS),
   KC_BSPC, KC_A,        KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    LT(_VIM, KC_SCLN), KC_QUOT,
-  KC_LSFT, CTL_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,           KC_ENT,
+  KC_LSFT, CTL_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,           KC_RSFT,
   KC_LCTL, BACKLIT,     KC_LALT, KC_LGUI, LOWER,   KC_ENT,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,             KC_RGHT
 ),
 
@@ -86,11 +86,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_SPACE_CADET] = LAYOUT_preonic_grid(
-  _________, _________, _________, _________, _________, _________, _________, _________, _________, _________, _________, _________,
-  _________, U(0x2227), U(0x2228), U(0x2229), U(0x222A), U(0x2282), U(0x2283), U(0x2200), U(0x221e), U(0x2203), U(0x2202), _________,
-  _________, U(0x22a5), U(0x22a4), U(0x22a2), U(0x22a3), U(0x2194), U(0x2190), U(0x2193), U(0x2191), U(0x2192), U(0x____), _________,
-  _________, U(0x230A), U(0x2308), U(0x2260), U(0x2243), U(0x2261), U(0x2264), U(0x2265), U(0x00AC), U(0x____), U(0x____), _________,
-  _________, _________, _________, _________, _________, _________, _________, _________, _________, _________, _________, _________
+  _______, _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   ,
+  _______, UC(0x2227), UC(0x2228), UC(0x2229), UC(0x222A), UC(0x2282), UC(0x2283), UC(0x2200), UC(0x221e), UC(0x2203), UC(0x2202), _______   ,
+  _______, UC(0x22a5), UC(0x22a4), UC(0x22a2), UC(0x22a3), UC(0x2194), UC(0x2190), UC(0x2193), UC(0x2191), UC(0x2192), _______   , _______   ,
+  _______, UC(0x230A), UC(0x2308), UC(0x2260), UC(0x2243), UC(0x2261), UC(0x2264), UC(0x2265), UC(0x00AC), _______   , _______   , _______   ,
+  _______, _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______  
 ),
 
 [_VIM] = LAYOUT_preonic_grid(
