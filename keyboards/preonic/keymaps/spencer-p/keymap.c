@@ -16,7 +16,6 @@
 
 #include QMK_KEYBOARD_H
 #include "muse.h"
-#include "integrated_calculator.h"
 
 enum preonic_layers {
   _QWERTY,
@@ -182,9 +181,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_integrated_calculator(keycode, record)) {
-    return false;
-  }
   switch (keycode) {
         case MU_ON:
           if (record->event.pressed) {
