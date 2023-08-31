@@ -20,7 +20,6 @@
 enum preonic_layers {
   _QWERTY,
   _GAME,
-  _SPACE_CADET,
   _VIM,
   _LOWER,
   _RAISE,
@@ -54,9 +53,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_QWERTY] = LAYOUT_preonic_grid(
   KC_ESC,  KC_1,        KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,              KC_EQL,
-  KC_TAB,  KC_Q,        KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,              LT(_SPACE_CADET, KC_BSLS),
+  KC_TAB,  KC_Q,        KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,              KC_BSLS,
   KC_BSPC, KC_A,        KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    LT(_VIM, KC_SCLN), KC_QUOT,
-  KC_LSFT, CTL_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,           KC_RSFT,
+  KC_LSFT, CTL_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,           KC_ENT,
   KC_LCTL, BACKLIT,     KC_LALT, KC_LGUI, LOWER,   KC_ENT,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,             KC_RGHT
 ),
 
@@ -71,27 +70,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ),
 */
 
-/* Space cadet
- * ,-----------------------------------------------------------------------------------.
- * |      |      |      |      |      |      |      |      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | ∧    | ∨    | ∩    | ∪    | ⊂    | ⊃    | ∀    | ∞    | ∃    | ∂    |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | ⊥    | ⊤    | ⊢    | ⊣    | ↔    | ←    | ↓    | ↑    | →    |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | ⌊    | ⌈    | ≠    | ≃    | ≡    | ≤    | ≥    | ¬    |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
-[_SPACE_CADET] = LAYOUT_preonic_grid(
-  _______, _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   ,
-  _______, UC(0x2227), UC(0x2228), UC(0x2229), UC(0x222A), UC(0x2282), UC(0x2283), UC(0x2200), UC(0x221e), UC(0x2203), UC(0x2202), _______   ,
-  _______, UC(0x22a5), UC(0x22a4), UC(0x22a2), UC(0x22a3), UC(0x2194), UC(0x2190), UC(0x2193), UC(0x2191), UC(0x2192), _______   , _______   ,
-  _______, UC(0x230A), UC(0x2308), UC(0x2260), UC(0x2243), UC(0x2261), UC(0x2264), UC(0x2265), UC(0x00AC), _______   , _______   , _______   ,
-  _______, _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______   , _______  
-),
-
 [_VIM] = LAYOUT_preonic_grid(
   _______,  _______,  _______,    _______,  _______,   _______,    _______,   _______,  _______,  _______,  _______,  _______,
   _______,  _______,  C(KC_RGHT), KC_MS_U,  _______,   _______,    RCS(KC_C), _______,  _______,  _______,  _______,  _______,
@@ -102,8 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /*
  * Gaming layout
- * Swaps space and enter so that the left hand can press space.
- * Adds an arrow grid on the right hand.
+ * Makes both space bars space.
  * Disables the Z-as-control feature.
  */
 [_GAME] = LAYOUT_preonic_grid(
@@ -111,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, KC_Z,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, KC_SPC,  KC_ENT,  _______, _______, _______, _______, _______
+  _______, _______, _______, _______, _______, KC_SPC,  KC_SPC,  _______, _______, _______, _______, _______
 ),
 
 /* Raise
